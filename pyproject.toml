@@ -1,7 +1,10 @@
 [project]
 name = "api-series"
 version = "0.1.0"
-description = "Add your description here"
+description = """
+API desenvolvida com o módulo FastAPI em Python para estudo do 
+funcionamento das APIs
+"""
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
