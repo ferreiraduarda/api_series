@@ -18,9 +18,9 @@ async def criar_serie(dados: SerieSchema, db: Session = Depends(get_db)):
 async def listar_series(db: Session = Depends(get_db)):
     return db.query(SerieModel).all()
 
-@serie.put("/update/{id}")
-async def atualizar_serie(id: int, dados: SerieSchema, 
-db: Session = Depends(get_db)):
+@serie.put("/seriesk/{id}")
+async def atualizar_serie(id: int, dados: SerieSchema, db: Session =
+                           Depends(get_db)):
     serie_api = db.query(SerieModel).filter(SerieModel.id == id).first()
 
     if not serie_api:
