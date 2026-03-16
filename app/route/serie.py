@@ -26,10 +26,10 @@ db: Session = Depends(get_db)):
     if not serie_api:
         raise HTTPException(status_code=404, detail="Série não encontrada")
     
-    for chave, valor in dados.model_dump().items():
+    for chave, valor in dados.model_dump(exclude_unset=True).items():
         setattr(serie_api, chave, valor)
     
-    db.add(serie_api)
+    
     db.commit()
     db.refresh(serie_api)
     return {"mensagem": "Série atualizada com sucesso", "serie": serie_api}
