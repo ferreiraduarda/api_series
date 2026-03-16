@@ -19,24 +19,28 @@ async def listar_series(db: Session = Depends(get_db)):
     return db.query(SerieModel).all()
 
 @serie.put("/update/{id}")
-async def atualizar_serie(id: int, dados: SerieSchema, db: Session = Depends(get_db)):
+async def atualizar_serie(id: int, dados: SerieSchema, 
+db: Session = Depends(get_db)):
     serie_api = db.query(SerieModel).filter(SerieModel.id == id).first()
+
     if not serie_api:
         raise HTTPException(status_code=404, detail="Série não encontrada")
-    update_data = dados.dict(exclude_unset=True)
     
-    for chave, valor in update_data.items():
+    for chave, valor in dados.model_dump().items():
         setattr(serie_api, chave, valor)
+    
     db.add(serie_api)
     db.commit()
     db.refresh(serie_api)
-    return {"message": "Série atualizada com sucesso", "serie": serie_api}
+    return {"mensagem": "Série atualizada com sucesso", "serie": serie_api}
 
 @serie.delete("/series/{id}")
 async def deletar_serie(id: int, db: Session = Depends(get_db)):
     serie_api = db.query(SerieModel).filter(SerieModel.id == id).first()
+
     if not serie_api:
         raise HTTPException(status_code=404, detail="Série não encontrada")
+    
     db.delete(serie_api)
     db.commit()
-    return {"message": "Série removida!"}
+    return {"mensagem": "Série removida!"}
